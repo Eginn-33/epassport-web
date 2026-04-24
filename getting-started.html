@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>安装教程 · ICAO ePassport Inspector</title>
+  <meta name="description" content="3 分钟在 iPhone 上安装 ICAO 电子护照验证器 — 保姆级图文教程。">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0e1a;
+      --bg-2: #111627;
+      --panel: #161b2e;
+      --accent: #16c72e;
+      --accent-dim: #0fa023;
+      --warn: #f5a623;
+      --danger: #ff5c5c;
+      --text: #e8ecf4;
+      --muted: #8792aa;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: #4ae068; }
+
+    .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(10, 14, 26, 0.85);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .brand {
+      font-weight: 800; font-size: 15px; letter-spacing: 1.5px;
+      color: var(--text);
+    }
+    .brand span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; font-size: 13px; }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--text); }
+
+    /* HEADER */
+    .header-block {
+      padding: 80px 0 50px;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 700px 300px at 50% -20%, rgba(22, 199, 46, 0.15), transparent 60%);
+    }
+    .eyebrow {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--accent); font-weight: 700;
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -0.4px;
+      margin-bottom: 20px;
+    }
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), #4ae068);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-sub {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 640px;
+      line-height: 1.65;
+    }
+
+    /* CRITICAL WARNING */
+    .critical-banner {
+      background: linear-gradient(135deg, rgba(245, 166, 35, 0.12), rgba(255, 92, 92, 0.08));
+      border: 1px solid rgba(245, 166, 35, 0.35);
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin: 40px 0 20px;
+      color: var(--text);
+      font-size: 14px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .critical-banner .icon {
+      font-size: 20px;
+      flex-shrink: 0;
+      line-height: 1.2;
+    }
+    .critical-banner strong { color: var(--warn); }
+
+    /* CONTENT */
+    main { padding: 50px 0 80px; }
+
+    /* STEP CARDS */
+    .step {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .step::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--accent);
+    }
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .step-num {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: rgba(22, 199, 46, 0.12);
+      color: var(--accent);
+      display: flex;
+      align-items: center; justify-content: center;
+      font-size: 20px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+    .step-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      margin: 0;
+    }
+    .step-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+    .step ol, .step ul {
+      padding-left: 22px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .step li { margin-bottom: 10px; }
+    .step li strong { color: var(--text); font-weight: 600; }
+
+    .warn-box {
+      background: rgba(245, 166, 35, 0.1);
+      border: 1px solid rgba(245, 166, 35, 0.3);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-top: 16px;
+      font-size: 13.5px;
+      color: var(--text);
+    }
+    .warn-box::before {
+      content: "⚠️ ";
+      margin-right: 4px;
+    }
+
+    .link-box {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 14px 0;
+      font-family: "SF Mono", Menlo, Consolas, monospace;
+      font-size: 13px;
+      word-break: break-all;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .link-box::before {
+      content: "🔗";
+    }
+    .link-box a { color: var(--accent); }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .result {
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      font-size: 13px;
+    }
+    .result.ok {
+      background: rgba(22, 199, 46, 0.1);
+      border: 1px solid rgba(22, 199, 46, 0.35);
+      color: var(--accent);
+    }
+    .result.fail {
+      background: rgba(255, 92, 92, 0.1);
+      border: 1px solid rgba(255, 92, 92, 0.35);
+      color: var(--danger);
+    }
+    .result strong { font-size: 15px; display: block; margin-bottom: 4px; }
+
+    /* SOS (RESCUE) */
+    .sos {
+      background: linear-gradient(135deg, rgba(255, 92, 92, 0.08), rgba(245, 166, 35, 0.06));
+      border: 1px solid rgba(245, 166, 35, 0.25);
+      border-radius: 16px;
+      padding: 32px;
+      margin: 40px 0;
+    }
+    .sos h2 {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--warn);
+      margin-bottom: 8px;
+    }
+    .sos-sub { color: var(--muted); font-size: 14px; margin-bottom: 22px; }
+    .sos-item {
+      border-top: 1px dashed rgba(245, 166, 35, 0.2);
+      padding: 16px 0;
+    }
+    .sos-item:first-of-type { border-top: none; padding-top: 0; }
+    .sos-q {
+      color: var(--text);
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+    .sos-q::before {
+      content: "Q: ";
+      color: var(--warn);
+    }
+    .sos-a {
+      color: var(--muted);
+      font-size: 14px;
+      padding-left: 22px;
+      position: relative;
+    }
+    .sos-a::before {
+      content: "A:";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* CTA */
+    .cta-big {
+      background: linear-gradient(135deg, #16c72e 0%, #0fa023 100%);
+      border-radius: 16px;
+      padding: 44px 32px;
+      text-align: center;
+      color: #001a05;
+      margin: 40px 0;
+    }
+    .cta-big h2 { color: #001a05; font-size: 22px; margin-bottom: 10px; }
+    .cta-big p { color: rgba(0, 26, 5, 0.82); margin-bottom: 22px; font-size: 14.5px; }
+    .cta-big .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #001a05;
+      color: var(--accent);
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .cta-big .btn:hover { background: #002a08; }
+
+    /* FOOTER */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .header-block { padding: 50px 0 30px; }
+      main { padding: 30px 0 60px; }
+      .step { padding: 24px; }
+      .result-grid { grid-template-columns: 1fr; }
+      .cta-big { padding: 32px 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <div class="brand"><a href="index.html" style="color:inherit;">VIATREE<span>·</span>BOT</a></div>
+      <div class="nav-links">
+        <a href="index.html">产品</a>
+        <a href="getting-started.html" style="color:var(--text);">安装教程</a>
+        <a href="support.html">支持</a>
+        <a href="privacy.html">隐私</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="header-block">
+    <div class="container">
+      <div class="eyebrow">iPhone · 3 分钟安装</div>
+      <h1>保姆级<em>安装教程</em>。<br>跟着做一次就会。</h1>
+      <p class="hero-sub">
+        <strong>ICAO ePassport Inspector</strong> 目前通过 Apple 官方 TestFlight 分发测试版。请严格按顺序操作,顺序错了会看到"已准备好测试"空页面。
+      </p>
+    </div>
+  </div>
+
+  <main>
+    <div class="container">
+
+      <!-- CRITICAL: ORDER MATTERS -->
+      <div class="critical-banner">
+        <div class="icon">⚠️</div>
+        <div>
+          <strong>务必按顺序</strong> — 先装 TestFlight,然后 <strong>用 Safari(不是微信/QQ浏览器)</strong> 点邀请链接,让 Safari 唤起 TestFlight。顺序错会卡在空页面!
+        </div>
+      </div>
+
+      <!-- STEP 1 -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">1</div>
+          <div>
+            <div class="step-title">安装 Apple 官方工具 TestFlight</div>
+            <div class="step-subtitle">免费,约 30 MB</div>
+          </div>
+        </div>
+        <ol>
+          <li>iPhone 打开 <strong>App Store</strong>(蓝色图标)</li>
+          <li>搜索栏输入:<strong>TestFlight</strong></li>
+          <li>找到作者是 <strong>Apple Inc.</strong> 的那个(蓝色图标),点 <strong>获取</strong> 免费下载</li>
+          <li>安装完成后<strong>先不要打开!</strong> 往下走第 2 步</li>
+        </ol>
+        <div class="warn-box">
+          先装好 TestFlight 但<strong>不要打开它</strong>,不然会进到空白的"已准备好测试"页面。
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">2</div>
+          <div>
+            <div class="step-title">用 Safari 浏览器点击邀请链接</div>
+            <div class="step-subtitle">必须用 Safari,不是微信/QQ/夸克</div>
+          </div>
+        </div>
+        <ol>
+          <li>iPhone 打开 <strong>Safari 浏览器</strong>(指南针图标)</li>
+          <li>地址栏输入(或复制下方链接):
+            <div class="link-box">
+              <a href="https://testflight.apple.com/join/WJ7xjATJ" target="_blank">https://testflight.apple.com/join/WJ7xjATJ</a>
+            </div>
+          </li>
+          <li>页面加载后会弹窗:<strong>"是否要在 TestFlight 中打开此页面?"</strong></li>
+          <li>点 <strong>"打开"</strong></li>
+        </ol>
+        <div class="warn-box">
+          如果你用微信 / QQ / 夸克 / UC 等其他浏览器点链接,可能无法唤起 TestFlight。<br>
+          <strong>请长按链接选"复制",粘贴到 Safari 地址栏。</strong>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">3</div>
+          <div>
+            <div class="step-title">接受邀请并安装 App</div>
+            <div class="step-subtitle">点 2 下按钮,等 30 秒</div>
+          </div>
+        </div>
+        <ol>
+          <li>自动跳转到 TestFlight,显示蓝色图标 <strong>"ICAO ePassport Inspector"</strong></li>
+          <li>点蓝色 <strong>【接受】</strong> 按钮</li>
+          <li>再点 <strong>【安装】</strong> 按钮</li>
+          <li>等 30 秒左右,iPhone 主屏幕出现 App 图标(带绿色 TestFlight 圆点标记)</li>
+        </ol>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">4</div>
+          <div>
+            <div class="step-title">开始验证护照</div>
+            <div class="step-subtitle">5-15 秒出结果</div>
+          </div>
+        </div>
+        <ol>
+          <li>主屏幕打开 <strong>"ICAO ePassport Inspector"</strong></li>
+          <li>按提示输入护照 <strong>MRZ 码</strong>:
+            <ul style="margin-top: 8px; color: var(--muted); font-size: 14px;">
+              <li>位置:护照<strong>照片页底部</strong>(有照片那一页)</li>
+              <li>2 行共 <strong>88 个字符</strong>,以 <code style="background:var(--bg-2); padding:2px 5px; border-radius:4px; font-size:12px;">P&lt;</code> 开头</li>
+              <li>可手动输入,或点相机扫描识别</li>
+            </ul>
+          </li>
+          <li>把护照的<strong>照片页</strong>面朝下,贴到 <strong>iPhone 顶部</strong>(摄像头那一端)</li>
+          <li>保持稳定 <strong>5-15 秒</strong>,不要晃动</li>
+          <li>等待结果 ↓</li>
+        </ol>
+
+        <div class="result-grid">
+          <div class="result ok">
+            <strong>🟢 INTEGRITY VERIFIED</strong>
+            证件真实有效<br>展示持有人信息
+          </div>
+          <div class="result fail">
+            <strong>🔴 VERIFICATION FAILED</strong>
+            验证未通过<br>证件或芯片异常
+          </div>
+        </div>
+      </div>
+
+      <!-- SOS -->
+      <div class="sos">
+        <h2>救急区(遇到问题先看这里)</h2>
+        <p class="sos-sub">90% 的问题都能在这里解决。</p>
+
+        <div class="sos-item">
+          <div class="sos-q">打开 TestFlight 看到"已准备好测试"空页面</div>
+          <div class="sos-a">
+            说明你跳过了 Safari 直接开 TestFlight。<br>
+            <strong>正确做法</strong>:从屏幕底部上滑关掉 TestFlight,回到第 2 步,在 Safari 点链接。
+          </div>
+        </div>
+
+        <div class="sos-item">
+          <div class="sos-q">链接在 iPhone 里打不开 / 一直转圈</div>
+          <div class="sos-a">
+            ① 确保是 <strong>Safari</strong>,不是微信/QQ<br>
+            ② 长按链接→复制→贴到 Safari 地址栏<br>
+            ③ 关 VPN 后重试<br>
+            ④ 换 4G / WiFi 网络试
+          </div>
+        </div>
+
+        <div class="sos-item">
+          <div class="sos-q">TestFlight 提示"此 beta 版已过期"</div>
+          <div class="sos-a">
+            每个测试版 90 天有效期。我们会在到期前推送新版,在 TestFlight 内点<strong>"更新"</strong>即可继续使用。
+          </div>
+        </div>
+
+        <div class="sos-item">
+          <div class="sos-q">我的护照是不是"电子护照"?</div>
+          <div class="sos-a">
+            2012 年后大部分国家签发的都是电子护照。<br>
+            <strong>判断方法</strong>:护照封面底部中间有个小金色芯片图标 📗(类似一个方块带外框)。<br>
+            没有这个图标的老护照无法用本 App 验证。
+          </div>
+        </div>
+
+        <div class="sos-item">
+          <div class="sos-q">能扫描别人的护照吗?</div>
+          <div class="sos-a">
+            可以,只要对方同意并配合。App 只做本地验证,不保存任何数据,使用完立即从内存释放。
+          </div>
+        </div>
+
+        <div class="sos-item">
+          <div class="sos-q">扫了很久一直没反应 / 读不到芯片</div>
+          <div class="sos-a">
+            ① 护照必须贴 <strong>iPhone 顶部</strong>(摄像头那端),不是背面或中间<br>
+            ② 中间不能有金属钱包、卡套、贴纸<br>
+            ③ 保持静止 5-15 秒不要动<br>
+            ④ 重新输入 MRZ 码再试(MRZ 错了一位都读不到芯片)
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-big">
+        <h2>看懂了 · 开始装</h2>
+        <p>在 Safari 里点下方链接,一分钟内完成全部流程。</p>
+        <a class="btn" href="https://testflight.apple.com/join/WJ7xjATJ" target="_blank" rel="noopener">
+          📱 在 TestFlight 中打开
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      有问题?邮件联系 <a href="mailto:303@viatreebot.com">303@viatreebot.com</a><br>
+      © 2026 VIATREE BOT · <a href="index.html">产品</a> · <a href="support.html">支持</a> · <a href="privacy.html">隐私</a>
+    </div>
+  </footer>
+
+</body>
+</html>
