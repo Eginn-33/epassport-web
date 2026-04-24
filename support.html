@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support — ICAO ePassport Inspector</title>
+  <meta name="description" content="Help, FAQ, and contact for ICAO ePassport Inspector users.">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0e1a;
+      --bg-2: #111627;
+      --panel: #161b2e;
+      --accent: #16c72e;
+      --text: #e8ecf4;
+      --muted: #8792aa;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: #4ae068; }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(10, 14, 26, 0.85);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .brand {
+      font-weight: 800; font-size: 15px; letter-spacing: 1.5px;
+      color: var(--text);
+    }
+    .brand span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; font-size: 13px; }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--text); }
+
+    .header-block {
+      padding: 80px 0 50px;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 700px 300px at 50% -20%, rgba(22, 199, 46, 0.12), transparent 60%);
+    }
+    .eyebrow {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--accent); font-weight: 700;
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -0.4px;
+      margin-bottom: 16px;
+    }
+    .hero-sub {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 620px;
+    }
+
+    .content { padding: 60px 0 80px; }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      margin-bottom: 64px;
+    }
+    .quick {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: border-color .15s ease;
+    }
+    .quick:hover { border-color: rgba(22, 199, 46, 0.4); }
+    .quick .label {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .quick h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .quick p { color: var(--muted); font-size: 14px; }
+    .quick a { font-weight: 600; }
+
+    h2 {
+      font-size: 24px;
+      font-weight: 800;
+      margin: 0 0 24px;
+      letter-spacing: -0.3px;
+    }
+    .section { margin-bottom: 60px; }
+
+    /* FAQ */
+    .faq-item {
+      border-top: 1px solid var(--border);
+      padding: 22px 0;
+    }
+    .faq-item:last-child { border-bottom: 1px solid var(--border); }
+    .faq-q {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .faq-q::before {
+      content: "Q";
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 13px;
+      background: rgba(22, 199, 46, 0.12);
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .faq-a {
+      font-size: 14px;
+      color: var(--muted);
+      padding-left: 34px;
+    }
+    .faq-a code {
+      background: var(--bg-2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    .contact-card {
+      background: linear-gradient(135deg, #0fa023, #16c72e);
+      border-radius: 16px;
+      padding: 40px;
+      color: #001a05;
+      margin-top: 40px;
+    }
+    .contact-card h2 { color: #001a05; font-size: 22px; }
+    .contact-card p { color: rgba(0, 26, 5, 0.85); margin: 12px 0 24px; font-size: 15px; }
+    .contact-card a.btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #001a05;
+      color: var(--accent);
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .contact-card a.btn:hover { background: #002a08; }
+
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .header-block { padding: 50px 0 30px; }
+      .content { padding: 40px 0 60px; }
+      .contact-card { padding: 28px 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <div class="brand"><a href="index.html" style="color:inherit;">VIATREE<span>·</span>BOT</a></div>
+      <div class="nav-links">
+        <a href="index.html">Overview</a>
+        <a href="support.html" style="color:var(--text);">Support</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="header-block">
+    <div class="container">
+      <div class="eyebrow">Support</div>
+      <h1>Need help?</h1>
+      <p class="hero-sub">
+        Quick answers for installing, using, and troubleshooting <strong>ICAO ePassport Inspector</strong>. Can't find what you need? Email us — we read every message.
+      </p>
+    </div>
+  </div>
+
+  <main class="content">
+    <div class="container">
+
+      <!-- QUICK LINKS -->
+      <div class="quick-grid">
+        <div class="quick">
+          <div class="label">Get the App</div>
+          <h3>TestFlight Beta</h3>
+          <p style="margin-bottom: 10px;">iPhone + iOS 16 or newer. Free, no account.</p>
+          <a href="https://testflight.apple.com/join/WJ7xjATJ" target="_blank">Install now →</a>
+        </div>
+        <div class="quick">
+          <div class="label">Email</div>
+          <h3>Direct contact</h3>
+          <p style="margin-bottom: 10px;">Bug reports, sales, partnership, audit requests.</p>
+          <a href="mailto:303@viatreebot.com">303@viatreebot.com →</a>
+        </div>
+        <div class="quick">
+          <div class="label">Legal</div>
+          <h3>Privacy Policy</h3>
+          <p style="margin-bottom: 10px;">Zero data collected. All verification on-device.</p>
+          <a href="privacy.html">Read policy →</a>
+        </div>
+      </div>
+
+      <!-- GETTING STARTED -->
+      <div class="section">
+        <h2>Getting started</h2>
+
+        <div class="faq-item">
+          <div class="faq-q">How do I install the App?</div>
+          <div class="faq-a">
+            Install <strong>TestFlight</strong> from the iPhone App Store (free, by Apple). Then tap the invite link: <a href="https://testflight.apple.com/join/WJ7xjATJ" target="_blank">https://testflight.apple.com/join/WJ7xjATJ</a>. TestFlight will install the ICAO ePassport Inspector for you. When the final App Store version ships, you'll be able to install directly from the App Store.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">What devices are supported?</div>
+          <div class="faq-a">
+            iPhone only, iOS 16 or newer. The App uses iPhone's built-in Core NFC reader. iPad and Mac are not supported because those platforms cannot read ICAO passport chips.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Do I need an account?</div>
+          <div class="faq-a">
+            No. There are no accounts, no sign-in, no registration. Open the App and start verifying.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Does it need internet?</div>
+          <div class="faq-a">
+            No. The App performs 100% of verification on-device using the ICAO PKD trust chain bundled inside the App. You can use it on airplane mode.
+          </div>
+        </div>
+      </div>
+
+      <!-- USAGE -->
+      <div class="section">
+        <h2>Using the App</h2>
+
+        <div class="faq-item">
+          <div class="faq-q">What's an MRZ and where do I find it?</div>
+          <div class="faq-a">
+            MRZ = <em>Machine Readable Zone</em>. It's the two lines of 44 characters printed at the bottom of a passport's photo page, starting with <code>P&lt;CHN</code>, <code>P&lt;USA</code>, etc. The App needs these 88 characters to negotiate secure access to the chip.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Where should I hold the passport?</div>
+          <div class="faq-a">
+            Hold the passport's photo page flat against the <strong>top edge</strong> of your iPhone (near the front camera). Don't move &mdash; keep steady for 5-15 seconds until the verdict appears.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">What does "INTEGRITY VERIFIED" mean?</div>
+          <div class="faq-a">
+            It means the passport chip's digital signature chain traces back to a trusted national Country Signing Certificate Authority (CSCA) in the ICAO PKD, <strong>and</strong> every data group's hash matches the signed manifest. In plain terms: the passport is cryptographically authentic and hasn't been tampered with.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">What does "VERIFICATION FAILED" mean?</div>
+          <div class="faq-a">
+            At least one of these failed: (a) the chip could not be read; (b) BAC/PACE secure channel could not be opened; (c) the signing certificate is not trusted; (d) a data group hash did not match. The App does not show personal information in this case.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Which countries' passports work?</div>
+          <div class="faq-a">
+            All ICAO 9303 compliant electronic passports &mdash; China, United States, European Union, Japan, UK, Canada, Australia, and 170+ other issuing authorities. The trust chain bundled in the App contains 584 CSCA certificates from the official ICAO Public Key Directory.
+          </div>
+        </div>
+      </div>
+
+      <!-- TROUBLESHOOTING -->
+      <div class="section">
+        <h2>Troubleshooting</h2>
+
+        <div class="faq-item">
+          <div class="faq-q">iPhone can't read the chip</div>
+          <div class="faq-a">
+            Check: (1) the passport is actually electronic &mdash; look for the small rectangular gold chip symbol on the cover; (2) no metallic wallet, case, or sticker between iPhone and passport; (3) hold at the <strong>top edge</strong> of the iPhone, not the back or middle; (4) stay steady for 5-15 seconds.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Verification failed on a passport I know is real</div>
+          <div class="faq-a">
+            Rare but possible. Usually the chip has been partially damaged (physical wear, static discharge). The physical passport remains valid for human inspection &mdash; only the electronic chip integrity failed. If you believe the result is wrong, please email <a href="mailto:303@viatreebot.com">303@viatreebot.com</a> with the country and approximate issuance year (no personal data needed).
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">TestFlight says "Build Expired"</div>
+          <div class="faq-a">
+            Each TestFlight build expires 90 days after release. We ship new builds regularly &mdash; open TestFlight, tap the App, and it'll offer to update. If no update is available, email us; we'll get a new beta out.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Does it work offline?</div>
+          <div class="faq-a">
+            Yes. Airplane mode, no Wi-Fi, no cellular &mdash; all work. No data ever leaves the device.
+          </div>
+        </div>
+      </div>
+
+      <!-- TECH / LEGAL -->
+      <div class="section">
+        <h2>Technical &amp; legal</h2>
+
+        <div class="faq-item">
+          <div class="faq-q">Is this App endorsed by ICAO?</div>
+          <div class="faq-a">
+            No. This App is an independent implementation of the publicly published <strong>ICAO Doc 9303</strong> open standard. ICAO, 9303, and PKD are trademarks of the International Civil Aviation Organization; we are not affiliated with or endorsed by ICAO.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Is the verification legally admissible?</div>
+          <div class="faq-a">
+            The App performs technical verification equivalent to airport border systems, but the legal validity of a digital verification result depends on your jurisdiction and use case. For official KYC, immigration, or legal purposes, always combine with your organization's approved procedures.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Can I audit the cryptographic checks?</div>
+          <div class="faq-a">
+            Yes. Every check is documented in the App's verification panel: BAC/PACE secure channel state, CSCA chain trust, Document Signer validity, data group hash comparison. For deeper audit, contact us for a technical review.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Data collection &amp; privacy</div>
+          <div class="faq-a">
+            The App does not collect, store, or transmit any passport data or personal information. See our full <a href="privacy.html">Privacy Policy</a> for details.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Export compliance (US)</div>
+          <div class="faq-a">
+            The App uses encryption exclusively for authentication and digital signature verification of public documents (ICAO 9303 ePassports), which qualifies under <strong>Category 5 Part 2 (c)</strong> exemption per US EAR. The App is registered accordingly with Apple App Store Connect.
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACT CARD -->
+      <div class="contact-card">
+        <h2>Didn't find your answer?</h2>
+        <p>Email the developer directly. We respond within 1 business day.</p>
+        <a class="btn" href="mailto:303@viatreebot.com">✉ 303@viatreebot.com</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 VIATREE BOT · XIAOFENG CHEN · <a href="index.html">Overview</a> · <a href="privacy.html">Privacy</a>
+    </div>
+  </footer>
+
+</body>
+</html>

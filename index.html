@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAO ePassport Inspector — VIATREE BOT</title>
+  <meta name="description" content="iPhone ePassport authenticator based on ICAO 9303 open standards, powered by the same ICAO PKD trust chain used by airport immigration systems worldwide.">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0e1a;
+      --bg-2: #111627;
+      --panel: #161b2e;
+      --accent: #16c72e;
+      --accent-dim: #0fa023;
+      --text: #e8ecf4;
+      --muted: #8792aa;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: #4ae068; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(10, 14, 26, 0.85);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .brand {
+      font-weight: 800; font-size: 15px; letter-spacing: 1.5px;
+      color: var(--text);
+    }
+    .brand span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; font-size: 13px; }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      padding: 120px 0 100px;
+      background:
+        radial-gradient(ellipse 900px 500px at 50% -10%, rgba(22, 199, 46, 0.18), transparent 60%),
+        radial-gradient(ellipse 600px 400px at 0% 30%, rgba(59, 130, 246, 0.12), transparent 60%);
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      font-size: 11px;
+      letter-spacing: 1.2px;
+      color: var(--accent);
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    h1 {
+      font-size: clamp(32px, 6vw, 56px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+      margin-bottom: 24px;
+    }
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), #4ae068);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-sub {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 720px;
+      margin-bottom: 44px;
+      line-height: 1.65;
+    }
+    .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 26px;
+      border-radius: 10px;
+      font-weight: 700; font-size: 14px;
+      letter-spacing: 0.3px;
+      transition: all .15s ease;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #001a05;
+    }
+    .btn-primary:hover { background: #4ae068; color: #001a05; transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--muted); }
+
+    /* SECTIONS */
+    section { padding: 90px 0; border-top: 1px solid var(--border); }
+    .section-label {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--accent); font-weight: 700;
+      margin-bottom: 16px;
+    }
+    h2 {
+      font-size: clamp(26px, 4vw, 40px);
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      margin-bottom: 24px;
+    }
+    .lead {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 760px;
+      margin-bottom: 48px;
+    }
+
+    /* FEATURE GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 18px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px;
+      transition: border-color .15s ease;
+    }
+    .card:hover { border-color: rgba(22, 199, 46, 0.4); }
+    .card-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      background: rgba(22, 199, 46, 0.1);
+      color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      margin-bottom: 18px;
+      font-weight: 800;
+    }
+    .card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.2px;
+    }
+    .card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    /* TECH ROW */
+    .tech-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+      margin-top: 44px;
+    }
+    .tech-item {
+      border-left: 2px solid var(--accent);
+      padding: 2px 0 2px 18px;
+    }
+    .tech-item strong {
+      display: block;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .tech-item span {
+      color: var(--muted);
+      font-size: 13px;
+      font-family: "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    /* USE CASES */
+    .usecase {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .usecase:last-child { border-bottom: none; }
+    .usecase-num {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: rgba(22, 199, 46, 0.12);
+      color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 800;
+    }
+    .usecase strong { font-size: 15px; font-weight: 700; display: block; margin-bottom: 4px; }
+    .usecase p { color: var(--muted); font-size: 14px; }
+
+    /* CTA */
+    .cta-big {
+      background: linear-gradient(135deg, #16c72e 0%, #0fa023 100%);
+      border-radius: 18px;
+      padding: 60px 40px;
+      text-align: center;
+      color: #001a05;
+      margin: 40px 0;
+    }
+    .cta-big h2 { color: #001a05; margin-bottom: 14px; }
+    .cta-big p { color: rgba(0,26,5,0.8); margin-bottom: 28px; font-size: 15px; }
+    .cta-big .btn-primary {
+      background: #001a05;
+      color: var(--accent);
+    }
+    .cta-big .btn-primary:hover { background: #002a08; }
+
+    /* FOOTER */
+    footer {
+      padding: 60px 0 40px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-brand-title {
+      font-weight: 800;
+      color: var(--text);
+      font-size: 16px;
+      margin-bottom: 12px;
+      letter-spacing: 0.8px;
+    }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { color: var(--muted); font-size: 13px; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hero { padding: 70px 0 60px; }
+      section { padding: 60px 0; }
+      .cta-big { padding: 40px 22px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container nav-inner">
+      <div class="brand">VIATREE<span>·</span>BOT</div>
+      <div class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#tech">Technology</a>
+        <a href="#use">Use cases</a>
+        <a href="support.html">Support</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">iOS · NFC · Open Standards</div>
+      <h1>The same passport verification<br>your <em>airport border</em> uses.<br>In your pocket.</h1>
+      <p class="hero-sub">
+        <strong>ICAO ePassport Inspector</strong> is an iPhone application that performs cryptographic verification of electronic passports using the <strong>ICAO 9303 open standard</strong> &mdash; the same international protocol deployed at airport immigration counters worldwide.
+        <br><br>
+        Powered by the official <strong>ICAO Public Key Directory</strong> trust chain (584 CSCA certificates, updated monthly). Fully on-device, zero data transmission, zero accounts.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://testflight.apple.com/join/WJ7xjATJ" target="_blank" rel="noopener">
+          📱 Install via TestFlight
+        </a>
+        <a class="btn btn-ghost" href="#tech">View the tech stack →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="container">
+      <div class="section-label">How it works</div>
+      <h2>Three seconds to the truth about a passport.</h2>
+      <p class="lead">
+        Hold a passport against your iPhone. The app reads the chip, verifies the signature chain against <strong>ICAO PKD trust anchors</strong>, and tells you whether the document is authentic &mdash; using exactly the same cryptographic logic as customs hardware.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-icon">1</div>
+          <h3>Paste the MRZ</h3>
+          <p>Enter the 88-character machine readable zone from the passport photo page. Or scan it with the camera — OCR runs on-device, no images leave your iPhone.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">2</div>
+          <h3>Tap the chip</h3>
+          <p>Hold the passport at the top edge of your iPhone. The app opens a BAC or PACE secure channel with the embedded contactless chip.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">3</div>
+          <h3>See the verdict</h3>
+          <p>In under 15 seconds: green <strong>INTEGRITY VERIFIED</strong> with holder identity, or red <strong>VERIFICATION FAILED</strong> with no personal information exposed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH -->
+  <section id="tech">
+    <div class="container">
+      <div class="section-label">Open standards, fully auditable</div>
+      <h2>Not a black box. Every step is ICAO-compliant.</h2>
+      <p class="lead">
+        Every cryptographic check the app performs is documented in public international standards. If it passes in our app, it will pass at any airport border using the same input.
+      </p>
+
+      <div class="tech-row">
+        <div class="tech-item">
+          <strong>Protocol</strong>
+          <span>ICAO Doc 9303 Parts 10/11</span>
+        </div>
+        <div class="tech-item">
+          <strong>Trust root</strong>
+          <span>ICAO PKD Master List<br>584 × CSCA certificates</span>
+        </div>
+        <div class="tech-item">
+          <strong>Secure channel</strong>
+          <span>BAC + PACE (ISO/IEC 14443)</span>
+        </div>
+        <div class="tech-item">
+          <strong>Signature</strong>
+          <span>Passive Authentication<br>RSA · ECDSA · SHA-256</span>
+        </div>
+        <div class="tech-item">
+          <strong>Runtime</strong>
+          <span>iOS 16+ · CoreNFC · Swift</span>
+        </div>
+        <div class="tech-item">
+          <strong>Data flow</strong>
+          <span>100% on-device<br>Zero server calls</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USE CASES -->
+  <section id="use">
+    <div class="container">
+      <div class="section-label">Where it fits</div>
+      <h2>Professional passport verification, wherever you need it.</h2>
+
+      <div style="margin-top: 40px;">
+        <div class="usecase">
+          <div class="usecase-num">1</div>
+          <div>
+            <strong>Customs and immigration — auxiliary check</strong>
+            <p>Secondary inspection support when a border officer needs a fast second opinion or mobile verification away from the primary booth.</p>
+          </div>
+        </div>
+        <div class="usecase">
+          <div class="usecase-num">2</div>
+          <div>
+            <strong>Banking / financial KYC</strong>
+            <p>Verify a customer's passport chip against ICAO trust anchors during account opening or high-value transaction review.</p>
+          </div>
+        </div>
+        <div class="usecase">
+          <div class="usecase-num">3</div>
+          <div>
+            <strong>Hotel / hospitality check-in</strong>
+            <p>Real-time authenticity check at the front desk for international guest registration.</p>
+          </div>
+        </div>
+        <div class="usecase">
+          <div class="usecase-num">4</div>
+          <div>
+            <strong>Corporate visitor management</strong>
+            <p>Validate inbound international visitors at secured campuses, events, or trade shows.</p>
+          </div>
+        </div>
+        <div class="usecase">
+          <div class="usecase-num">5</div>
+          <div>
+            <strong>Cross-border logistics &amp; crew ID</strong>
+            <p>Field verification of drivers, pilots, or vessel crew where classical border infrastructure isn't available.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="container">
+      <div class="cta-big">
+        <h2>Try it on your iPhone in under a minute.</h2>
+        <p>Free TestFlight beta. iPhone + iOS 16 or newer. No account required.</p>
+        <a class="btn btn-primary" href="https://testflight.apple.com/join/WJ7xjATJ" target="_blank" rel="noopener">
+          📱 Join the TestFlight Beta
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-title">VIATREE BOT · ICAO ePassport Inspector</div>
+          <p style="max-width: 420px;">
+            An iPhone application for ICAO 9303 electronic passport integrity verification. Based on open international standards. Fully on-device. No data collected.
+          </p>
+        </div>
+        <div>
+          <div class="footer-brand-title" style="font-size: 13px;">Product</div>
+          <div class="footer-links">
+            <a href="#how">How it works</a>
+            <a href="#tech">Technology</a>
+            <a href="#use">Use cases</a>
+            <a href="https://testflight.apple.com/join/WJ7xjATJ" target="_blank">Download beta</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-brand-title" style="font-size: 13px;">Company</div>
+          <div class="footer-links">
+            <a href="support.html">Support</a>
+            <a href="privacy.html">Privacy policy</a>
+            <a href="mailto:303@viatreebot.com">303@viatreebot.com</a>
+            <a href="https://viatreebot.com">viatreebot.com</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2026 VIATREE BOT · XIAOFENG CHEN · All rights reserved. · ICAO, 9303, PKD are trademarks of the International Civil Aviation Organization; this application is not endorsed by or affiliated with ICAO.
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
